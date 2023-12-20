@@ -1,0 +1,7 @@
+---
+# defaults file for verizon-project
+# vars:
+  nfsshare: " /verizon-data-shared-drive "
+  nfsexport: " node*(rw,sync,no_root_squash) "
+  device: " /dev/nvme0n2 "
+

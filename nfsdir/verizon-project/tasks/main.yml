@@ -1,0 +1,4 @@
+- name: server configuration
+  import_tasks: server.tasks.yml
+  when: ansible_nodename == ' {{ node3 }} '
+

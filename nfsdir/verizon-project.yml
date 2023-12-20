@@ -1,0 +1,8 @@
+- hosts : all 
+  roles:
+    - role: verizon-project
+      when: ansible_nodename == ' {{ nfsserver }} '
+
+    - role: client-role
+      when: ansible_nodename == ' {{ nfsclients }} '
+

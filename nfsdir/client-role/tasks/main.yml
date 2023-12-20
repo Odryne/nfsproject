@@ -1,0 +1,9 @@
+---
+# tasks file for client-role
+#
+- name: client tasks
+  import_tasks: client.tasks.yml
+  when: "ansible_nodename == '{{ node1 }}' or ansible_nodename == '{{ node2 }}'"
+
+
+

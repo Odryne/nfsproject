@@ -1,0 +1,5 @@
+---
+# defaults file for client-role
+nfsshare: " /verizon-data-shared-drive "
+clientmpt: " /verizon-client "
+

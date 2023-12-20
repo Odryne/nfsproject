@@ -1,0 +1,19 @@
+#- hosts: nfsclients
+# become: true
+#tasks:
+   - name: install the nfs-utils
+     dnf:
+       name: nfs-utils
+       state: latest
+
+   - name: create the mountpoint
+     file:
+       path: " {{ clientmpt }} "
+       state: directory
+
+   - name: mount it permanently
+     lineinfile:
+        path: /etc/fstab
+        line: " nfsserver: {{ nfsshare }}   {{ clientmpt }}  nfs defaults 0 0 "
+
+

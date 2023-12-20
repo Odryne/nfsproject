@@ -1,0 +1,53 @@
+#- hosts: nfsserver
+# become: yes
+#  tasks:
+  - name: create the nfsshare
+    file:
+       path: " {{ nfsshare }} " 
+       state: directory
+       mode: '777'
+
+  - name: Mount permanently
+    mount:
+      path: " {{ nfsshare }} "
+      src: " {{ device }} "
+      fstype: nfs
+      state: mounted
+
+  - name: install nfs-utils
+    dnf: 
+      name: nfs-utils
+      state: latest
+
+  - name: enable nfs and rpcbind
+    service:
+     name: " {{ item }} "
+     state: started
+     enabled: yes
+    with_items:
+         - nfs
+         - rpcbind
+
+  - name: allow the services on the firewall
+    firewalld:
+      service: " {{ item }} "
+      permanent: true
+      state: enabled
+      immediate: true
+    loop:
+          - nfs
+          - rpc-bind
+          - mountd
+
+  - name: Enforce SELinux
+    selinux:
+      policy: targeted
+      state: enforcing
+
+  - name: add line into /etc/exports
+    lineinfile:
+      path: /etc/exports
+      line: " {{ nfsshare }}   {{ nfsexport }} "
+      state: present
+    notify:
+      - restart nfs-server  
